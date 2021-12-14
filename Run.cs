@@ -69,7 +69,7 @@ namespace RepeatedCopy
         {
             try
             {
-                File.WriteAllText("Save.json", JsonConvert.SerializeObject(save));
+                File.WriteAllText("Save.json", JsonConvert.SerializeObject(save, Formatting.Indented));
             }
             catch (Exception ex)
             {
