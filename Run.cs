@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace RepeatedCopy
 {
@@ -18,36 +21,44 @@ namespace RepeatedCopy
             var today = DateTime.Now.Date;
             var save = LoadSaveFile();
 
-            if(save == null)
+            if (save == null)
             {
                 save = new Save { };
             }
 
-            foreach (var file in Directory.GetFiles(opts.Input))
+            do
             {
-                // 첫 파일이거나 오늘꺼거나
-                if(today == File.GetLastWriteTime(file).Date || !save.ProcessFiles.Contains(file))
+                foreach (var file in Directory.GetFiles(opts.Input))
                 {
-                    var dest = opts.Output + "\\" + file;
-                    Console.WriteLine($"<Src:{file}> <Dest:{dest}>");
-                    File.Copy(file, dest);
+                    // 첫 파일이거나 오늘꺼거나
+                    if (today == File.GetLastWriteTime(file).Date || !save.ProcessFiles.Contains(file))
+                    {
+                        var dest = opts.Output + "\\" + Path.GetFileName(file);
+                        Console.WriteLine($"<Src:{file}> <Dest:{dest}> <Size:{new System.IO.FileInfo(file).Length}>");
+                        File.Copy(file, dest, true);
 
-                    if(!save.ProcessFiles.Contains(file))
-                        save.ProcessFiles.Add(file);
+                        if (!save.ProcessFiles.Contains(file))
+                        {
+                            save.ProcessFiles.Add(file);
+                            SaveFile(save);
+                        }
+                    }
+
                 }
-            }
 
-            SaveFile(save);
+                Thread.Sleep(opts.TimeInterval * 1000);
+            }
+            while (opts.Repeat);
         }
 
         public static Save? LoadSaveFile()
         {
-            var json = File.ReadAllText("Save.json");
             try
             {
+                var json = File.ReadAllText("Save.json");
                 return JsonConvert.DeserializeObject<Save>(json);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return null;
