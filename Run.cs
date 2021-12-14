@@ -38,7 +38,7 @@ namespace RepeatedCopy
                     if (today == File.GetLastWriteTime(file).Date || !save.ProcessFiles.Contains(file))
                     {
                         var dest = opts.Output + "\\" + Path.GetFileName(file);
-                        Console.WriteLine($"<Src:{file}> <Dest:{dest}> <Size:{new System.IO.FileInfo(file).Length}>");
+                        Console.WriteLine($"<Src:{file}> <Dest:{dest}> <Size:{BytesToString(new FileInfo(file).Length)}>");
                         File.Copy(file, dest, true);
 
                         if (!save.ProcessFiles.Contains(file))
@@ -54,6 +54,17 @@ namespace RepeatedCopy
                 Thread.Sleep(opts.TimeInterval * 1000);
             }
             while (opts.Repeat);
+        }
+
+        static string BytesToString(long byteCount)
+        {
+            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
+            if (byteCount == 0)
+                return "0" + suf[0];
+            long bytes = Math.Abs(byteCount);
+            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
+            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
+            return (Math.Sign(byteCount) * num).ToString() + suf[place];
         }
 
         public static Save? LoadSaveFile()
