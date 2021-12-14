@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace RepeatedCopy
@@ -20,7 +21,6 @@ namespace RepeatedCopy
 
             var today = DateTime.Now.Date;
             var save = LoadSaveFile();
-
             if (save == null)
             {
                 save = new Save { };
@@ -30,6 +30,10 @@ namespace RepeatedCopy
             {
                 foreach (var file in Directory.GetFiles(opts.Input))
                 {
+                    var fileName = Path.GetFileName(file);
+                    if (!string.IsNullOrEmpty(opts.Pattern) && !Regex.IsMatch(fileName, opts.Pattern))
+                        continue;
+
                     // 첫 파일이거나 오늘꺼거나
                     if (today == File.GetLastWriteTime(file).Date || !save.ProcessFiles.Contains(file))
                     {
@@ -46,6 +50,7 @@ namespace RepeatedCopy
 
                 }
 
+                Console.WriteLine($"Process Complete.");
                 Thread.Sleep(opts.TimeInterval * 1000);
             }
             while (opts.Repeat);

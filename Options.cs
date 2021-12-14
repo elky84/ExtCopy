@@ -1,6 +1,4 @@
 ﻿using CommandLine;
-using System;
-using System.Collections.Generic;
 
 namespace RepeatedCopy
 {
@@ -18,6 +16,9 @@ namespace RepeatedCopy
 
         [Option('r', "repeat", Required = false, HelpText = "repeat condition")]
         public bool Repeat { get; set; }
+
+        [Option('p', "pattern", Required = false, HelpText = "regex pattern")]
+        public string Pattern { get; set; } = "";
 
         [Option('t', "time", Required = false, HelpText = "time interval (unit seconds)")]
         public int TimeInterval { get; set; } = 0;
