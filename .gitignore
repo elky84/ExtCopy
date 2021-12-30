@@ -351,3 +351,7 @@ MigrationBackup/
 
 
 Properties/
+
+publish*.bat
+
+Pack/

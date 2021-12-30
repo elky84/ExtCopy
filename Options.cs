@@ -5,10 +5,10 @@ namespace RepeatedCopy
 
     public partial class Options
     {
-        [Option('i', "input", Required = true, HelpText = "Input excel file directory.")]
+        [Option('i', "input", Required = true, HelpText = "Input directory.")]
         public string Input { get; set; } = "";
 
-        [Option('o', "output", Required = true, HelpText = "Input output directory")]
+        [Option('o', "output", Required = true, HelpText = "Output directory")]
         public string Output { get; set; } = "output";
 
         [Option('c', "cleanup", Required = false, HelpText = "cleanup output directory")]
