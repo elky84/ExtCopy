@@ -22,8 +22,8 @@ require dotnet 6 (LTS) or later (<https://dotnet.microsoft.com/en-us/download>)
 
 `dotnet tool install -g ExtCopy`
 
-### use single excel file (-f)
-`excel2dotnet -f {fileName}`
+### must use input directory & output directory option.
+`extcopy -i {input directory} -o {output directory}`
 
 ## all options
 - <https://github.com/elky84/ExtCopy/blob/main/Options.cs>
