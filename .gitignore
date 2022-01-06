@@ -355,3 +355,5 @@ Properties/
 publish*.bat
 
 Pack/
+
+*.ps1
