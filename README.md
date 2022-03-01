@@ -33,6 +33,6 @@ require dotnet 6 (LTS) or later (<https://dotnet.microsoft.com/en-us/download>)
 
 ## version history
 
-# v1.0.3
+### v1.0.3
 
 change namespace to ExtCopy (origin by RepeatedCopy)
