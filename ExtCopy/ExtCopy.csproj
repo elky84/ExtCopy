@@ -14,7 +14,7 @@
 	<PackAsTool>true</PackAsTool>
 	<ToolCommandName>extcopy</ToolCommandName>
 	
-  <Version>1.0.2</Version>
+	<Version>1.0.3</Version>
 
 	<PackageDescription>Extend Copy Functions</PackageDescription>
     <RepositoryUrl>https://github.com/elky84/ExtCopy</RepositoryUrl>

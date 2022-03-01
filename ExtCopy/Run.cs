@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace RepeatedCopy
+namespace ExtCopy
 {
     public static class Run
     {
