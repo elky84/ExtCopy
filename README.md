@@ -1,5 +1,5 @@
 [![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg?label=elky-essay)](https://elky84.github.io)
-![Made with](https://img.shields.io/badge/made%20with-.NET6-blue.svg)
+![Made with](https://img.shields.io/badge/made%20with-.NET7-blue.svg)
 
 [![Publish Nuget Package](https://github.com/elky84/ExtCopy/actions/workflows/publish_nuget.yml/badge.svg)](https://github.com/elky84/ExtCopy/actions/workflows/publish_nuget.yml)
 [![Publish Nuget Github Package](https://github.com/elky84/ExtCopy/actions/workflows/publish_github.yml/badge.svg)](https://github.com/elky84/ExtCopy/actions/workflows/publish_github.yml)
@@ -21,7 +21,7 @@ Extend CLI copy utility.
 
 ## install cli global tool
 
-require dotnet 6 (LTS) or later (<https://dotnet.microsoft.com/en-us/download>)
+require dotnet 7 (LTS) or later (<https://dotnet.microsoft.com/en-us/download>)
 
 `dotnet tool install -g ExtCopy`
 
