@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Globalization;
+using Newtonsoft.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -17,11 +18,7 @@ namespace ExtCopy
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             var today = DateTime.Now.Date;
-            var save = LoadSaveFile();
-            if (save == null)
-            {
-                save = new Save { };
-            }
+            var save = LoadSaveFile() ?? new Save();
 
             do
             {
@@ -32,19 +29,14 @@ namespace ExtCopy
                         continue;
 
                     // 첫 파일이거나 오늘꺼거나
-                    if (today == File.GetLastWriteTime(file).Date || !save.ProcessFiles.Contains(file))
-                    {
-                        var dest = opts.Output + "\\" + Path.GetFileName(file);
-                        Console.WriteLine($"<Src:{file}> <Dest:{dest}> <Size:{BytesToString(new FileInfo(file).Length)}>");
-                        File.Copy(file, dest, true);
+                    if (today != File.GetLastWriteTime(file).Date && save.ProcessFiles.Contains(file)) continue;
+                    var dest = opts.Output + "\\" + Path.GetFileName(file);
+                    Console.WriteLine($"<Src:{file}> <Dest:{dest}> <Size:{BytesToString(new FileInfo(file).Length)}>");
+                    File.Copy(file, dest, true);
 
-                        if (!save.ProcessFiles.Contains(file))
-                        {
-                            save.ProcessFiles.Add(file);
-                            SaveFile(save);
-                        }
-                    }
-
+                    if (save.ProcessFiles.Contains(file)) continue;
+                    save.ProcessFiles.Add(file);
+                    SaveFile(save);
                 }
 
                 Console.WriteLine($"Process Complete.");
@@ -53,18 +45,18 @@ namespace ExtCopy
             while (opts.Repeat);
         }
 
-        static string BytesToString(long byteCount)
+        private static string BytesToString(long byteCount)
         {
             string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
             if (byteCount == 0)
                 return "0" + suf[0];
-            long bytes = Math.Abs(byteCount);
-            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
-            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
-            return (Math.Sign(byteCount) * num).ToString() + suf[place];
+            var bytes = Math.Abs(byteCount);
+            var place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
+            var num = Math.Round(bytes / Math.Pow(1024, place), 1);
+            return (Math.Sign(byteCount) * num).ToString(CultureInfo.InvariantCulture) + suf[place];
         }
 
-        public static Save? LoadSaveFile()
+        private static Save? LoadSaveFile()
         {
             try
             {
@@ -78,7 +70,7 @@ namespace ExtCopy
             }
         }
 
-        public static void SaveFile(Save save)
+        private static void SaveFile(Save save)
         {
             try
             {
@@ -90,18 +82,18 @@ namespace ExtCopy
             }
         }
 
-        public static void DeleteDirectory(string targetDir)
+        private static void DeleteDirectory(string targetDir)
         {
-            string[] files = Directory.GetFiles(targetDir);
-            string[] dirs = Directory.GetDirectories(targetDir);
+            var files = Directory.GetFiles(targetDir);
+            var dirs = Directory.GetDirectories(targetDir);
 
-            foreach (string file in files)
+            foreach (var file in files)
             {
                 File.SetAttributes(file, FileAttributes.Normal);
                 File.Delete(file);
             }
 
-            foreach (string dir in dirs)
+            foreach (var dir in dirs)
             {
                 DeleteDirectory(dir);
             }

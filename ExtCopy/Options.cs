@@ -3,6 +3,7 @@
 namespace ExtCopy
 {
 
+    // ReSharper disable once ClassNeverInstantiated.Global
     public partial class Options
     {
         [Option('i', "input", Required = true, HelpText = "Input directory.")]

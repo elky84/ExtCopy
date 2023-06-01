@@ -13,6 +13,6 @@ using ExtCopy;
     catch (Exception exception)
     {
         Console.WriteLine($"Unhandled exception. <Reason:{exception.Message}> <StackTrace:{exception.StackTrace}>");
-        Environment.Exit(ErrorCode.EXCEPTION);
+        Environment.Exit(ErrorCode.Exception);
     }
 }
